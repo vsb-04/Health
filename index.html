@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthConnect Portal</title>
+    <style>
+        :root {
+            --primary: #1976D2;
+            --primary-light: #42a5f5;
+            --primary-dark: #0d47a1;
+            --secondary: #03A9F4;
+            --accent: #4CAF50;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --bg-light: #f5f7fa;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --danger: #f44336;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header and Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .active {
+            color: var(--primary);
+        }
+        
+        .active::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--gray-100);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #43a047;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Features */
+        .features {
+            padding: 4rem 1rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 1rem auto 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+        
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+        
+        .dashboard {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dashboard-header h2 {
+            color: var(--primary);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background-color: var(--gray-100);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .metric-card h3 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+        
+        .trend-up {
+            color: var(--accent);
+        }
+        
+        .trend-down {
+            color: var(--danger);
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin-top: 1rem;
+        }
+        
+        /* Appointment Form */
+        .appointment-section {
+            padding: 2rem 0;
+        }
+        
+        .appointment-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .time-slot {
+            padding: 0.5rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .time-slot:hover {
+            border-color: var(--primary);
+        }
+        
+        .time-slot.selected {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        .time-slot.unavailable {
+            background-color: var(--gray-200);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            padding: 3rem 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links h3 {
+            margin-bottom: 1.25rem;
+            font-size: 1.25rem;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: var(--gray-100);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background-color: var(--white);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+                gap: 0;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                width: 100%;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 0.75rem 1.5rem;
+            }
+            
+            nav ul li a::after {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--white);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .toast.success {
+            border-left: 4px solid var(--accent);
+        }
+        
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .toast-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .toast-close:hover {
+            color: var(--text-primary);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <span class="logo-icon" id="logo-icon"></span>
+                <span>HealthConnect</span>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <span id="menu-icon"></span>
+                </button>
+                <ul id="nav-menu">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#appointment">Appointments</a></li>
+                    <li><a href="#">Medical Records</a></li>
+                    <li><a href="#">Medications</a></li>
+                    <li><a href="#">Messages</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Your Health, Simplified</h1>
+            <p>Access your medical information, schedule appointments, and manage your health journey all in one place.</p>
+            <a href="#appointment" class="btn btn-primary">Book an Appointment</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon" id="appointment-icon"></div>
+                    <h3>Easy Scheduling</h3>
+                    <p>Book appointments with your healthcare providers in just a few clicks. Choose from available time slots and receive instant confirmation.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon" id="records-icon"></div>
+                    <h3>Medical Records</h3>
+                    <p>Securely access your complete medical history, test results, and doctor's notes whenever you need them.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon" id="tracking-icon"></div>
+                    <h3>Health Tracking</h3>
+                    <p>Monitor your vital signs, medication adherence, and health metrics through intuitive dashboards and visualizations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="dashboard" class="dashboard">
+            <div class="dashboard-header">
+                <h2>Health Dashboard</h2>
+                <div class="date">May 9, 2025</div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="metric-card">
+                    <h3>Blood Pressure</h3>
+                    <div class="metric-value">120/80 mmHg</div>
+                    <div class="metric-trend trend-down">
+                        <span id="trend-down-icon"></span>
+                        <span>5% lower than last month</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <h3>Heart Rate</h3>
+                    <div class="metric-value">72 bpm</div>
+                    <div class="metric-trend">
+                        <span>Stable</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <h3>Medication Adherence</h3>
+                    <div class="metric-value">92%</div>
+                    <div class="metric-trend trend-up">
+                        <span id="trend-up-icon"></span>
+                        <span>8% improvement</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="healthChart"></canvas>
+            </div>
+        </section>
+
+        <section id="appointment" class="appointment-section">
+            <h2 class="section-title">Book an Appointment</h2>
+            <div class="appointment-container">
+                <form id="appointment-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="appointment-type">Appointment Type</label>
+                            <select id="appointment-type" class="form-control" required>
+                                <option value="">Select type</option>
+                                <option value="general">General Check-up</option>
+                                <option value="specialist">Specialist Consultation</option>
+                                <option value="followup">Follow-up Visit</option>
+                                <option value="vaccination">Vaccination</option>
+                                <option value="lab">Lab Tests</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="doctor">Select Doctor</label>
+                            <select id="doctor" class="form-control" required>
+                                <option value="">Select doctor</option>
+                                <option value="dr-smith">Dr. Smith - General Medicine</option>
+                                <option value="dr-johnson">Dr. Johnson - Cardiology</option>
+                                <option value="dr-williams">Dr. Williams - Pediatrics</option>
+                                <option value="dr-davis">Dr. Davis - Dermatology</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment-date">Select Date</label>
+                        <input type="date" id="appointment-date" class="form-control" required min="" />
+                    </div>
+                    <div class="form-group">
+                        <label>Available Time Slots</label>
+                        <div class="time-slots" id="time-slots">
+                            <!-- Time slots will be generated dynamically -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" class="form-control" rows="3" placeholder="Any specific concerns or information for the doctor?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirm Appointment</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">HealthConnect</div>
+                    <p>Your trusted partner for managing your healthcare needs efficiently and securely.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Doctors</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>1234 Healthcare Blvd</li>
+                        <li>New York, NY 10001</li>
+                        <li>Phone: (123) 456-7890</li>
+                        <li>Email: support@healthconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 HealthConnect. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast">
+        <div class="toast-header">
+            <span id="toast-title">Notification</span>
+            <button class="toast-close" id="toast-close">&times;</button>
+        </div>
+        <div class="toast-body" id="toast-body"></div>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Replace icon placeholders
+            feather.replace();
+            
+            // Custom icons
+            document.getElementById('logo-icon').innerHTML = feather.icons['activity'].toSvg();
+            document.getElementById('menu-icon').innerHTML = feather.icons['menu'].toSvg();
+            document.getElementById('appointment-icon').innerHTML = feather.icons['calendar'].toSvg();
+            document.getElementById('records-icon').innerHTML = feather.icons['file-text'].toSvg();
+            document.getElementById('tracking-icon').innerHTML = feather.icons['bar-chart-2'].toSvg();
+            document.getElementById('trend-up-icon').innerHTML = feather.icons['arrow-up'].toSvg();
+            document.getElementById('trend-down-icon').innerHTML = feather.icons['arrow-down'].toSvg();
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const navMenu = document.getElementById('nav-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('show');
+            });
+            
+            // Health chart initialization
+            const ctx = document.getElementById('healthChart').getContext('2d');
+            const healthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [
+                        {
+                            label: 'Systolic BP',
+                            data: [135, 132, 128, 125, 120],
+                            borderColor: '#1976D2',
+                            backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Diastolic BP',
+                            data: [88, 86, 84, 82, 80],
+                            borderColor: '#03A9F4',
+                            backgroundColor: 'rgba(3, 169, 244, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Medication Adherence (%)',
+                            data: [75, 78, 82, 85, 92],
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Set minimum date for appointment to today
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('appointment-date').min = formattedDate;
+            
+            // Generate time slots dynamically when date is selected
+            const appointmentDate = document.getElementById('appointment-date');
+            const timeSlots = document.getElementById('time-slots');
+            
+            appointmentDate.addEventListener('change', function() {
+                generateTimeSlots();
+            });
+            
+            function generateTimeSlots() {
+                timeSlots.innerHTML = '';
+                
+                // Example time slots - in a real app, these would come from an API
+                const slots = [
+                    { time: '09:00 AM', available: true },
+                    { time: '09:30 AM', available: true },
+                    { time: '10:00 AM', available: false },
+                    { time: '10:30 AM', available: true },
+                    { time: '11:00 AM', available: true },
+                    { time: '11:30 AM', available: false },
+                    { time: '01:00 PM', available: true },
+                    { time: '01:30 PM', available: true },
+                    { time: '02:00 PM', available: true },
+                    { time: '02:30 PM', available: false },
+                    { time: '03:00 PM', available: true },
+                    { time: '03:30 PM', available: true }
+                ];
+                
+                // Check if it's weekend or weekday to show different availability
+                const selectedDate = new Date(appointmentDate.value);
+                const isWeekend = selectedDate.getDay() === 0 || selectedDate.getDay() === 6;
+                
+                // Create time slot elements
+                slots.forEach((slot, index) => {
+                    // Randomly make some slots unavailable on weekends
+                    const available = isWeekend ? (index % 2 === 0) : slot.available;
+                    
+                    const slotElem = document.createElement('div');
+                    slotElem.className = `time-slot ${available ? '' : 'unavailable'}`;
+                    slotElem.textContent = slot.time;
+                    
+                    if (available) {
+                        slotElem.addEventListener('click', function() {
+                            // Deselect all other slots
+                            document.querySelectorAll('.time-slot.selected').forEach(el => {
+                                el.classList.remove('selected');
+                            });
+                            
+                            // Select this slot
+                            this.classList.add('selected');
+                        });
+                    }
+                    
+                    timeSlots.appendChild(slotElem);
+                });
+            }
+            
+            // Form validation and submission
+            const appointmentForm = document.getElementById('appointment-form');
+            
+            appointmentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                const appointmentType = document.getElementById('appointment-type').value;
+                const doctor = document.getElementById('doctor').value;
+                const date = document.getElementById('appointment-date').value;
+                const selectedSlot = document.querySelector('.time-slot.selected');
+                
+                if (!appointmentType || !doctor || !date) {
+                    showToast('Please fill in all required fields', 'error');
+                    return;
+                }
+                
+                if (!selectedSlot) {
+                    showToast('Please select an available time slot', 'error');
+                    return;
+                }
+                
+                // If all validation passes, show success message
+                const time = selectedSlot.textContent;
+                showToast(`Appointment booked successfully for ${date} at ${time}`, 'success');
+                
+                // In a real app, this would submit to the server
+                appointmentForm.reset();
+                document.querySelectorAll('.time-slot.selected').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                
+                // Clear time slots
+                timeSlots.innerHTML = '';
+            });
+            
+            // Toast notification system
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastBody = document.getElementById('toast-body');
+            const toastClose = document.getElementById('toast-close');
+            
+            function showToast(message, type = 'success') {
+                // Reset classes
+                toast.className = 'toast';
+                
+                // Add appropriate class
+                toast.classList.add(type);
+                
+                // Set title based on type
+                toastTitle.textContent = type === 'success' ? 'Success' : 'Error';
+                
+                // Set message
+                toastBody.textContent = message;
+                
+                // Show toast
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 100);
+                
+                // Hide toast after 5 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 5000);
+            }
+            
+            toastClose.addEventListener('click', function() {
+                toast.classList.remove('show');
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Close mobile menu if open
+                        if (navMenu.classList.contains('show')) {
+                            navMenu.classList.remove('show');
+                        }
+                    }
+                });
+            });
+            
+            // Add animation to elements when they come into view
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.feature-card, .metric-card, .appointment-container').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
